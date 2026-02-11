@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do You Love Me?</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffd6e7;
+    font-family: "Comic Sans MS", "Poppins", sans-serif;
+    overflow: hidden;
+    text-align: center;
+}
+
+.container {
+    background: rgba(255,255,255,0.7);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #d63384;
+    font-size: 32px;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 18px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#yesBtn {
+    background: #ff8fab;
+    color: white;
+}
+
+#noBtn {
+    background: #ffc2d1;
+    color: #a4133c;
+    position: relative;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 22px;
+    color: #d63384;
+    display: none;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: pink;
+    top: -10px;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Do you love me? 💕</h1>
+    <button id="yesBtn">YES</button>
+    <button id="noBtn">NO</button>
+    <div id="message"></div>
+</div>
+
+<script>
+let noAttempts = 0;
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+
+noBtn.addEventListener("click", () => {
+    noAttempts++;
+
+    if (noAttempts === 1) {
+        noBtn.style.transform = "translateX(100px)";
+    }
+    else if (noAttempts === 2) {
+        noBtn.style.transform = "scale(0.8)";
+    }
+    else if (noAttempts === 3) {
+        const yesRect = yesBtn.getBoundingClientRect();
+        const noRect = noBtn.getBoundingClientRect();
+        yesBtn.style.position = "absolute";
+        noBtn.style.position = "absolute";
+        yesBtn.style.left = noRect.left + "px";
+        yesBtn.style.top = noRect.top + "px";
+        noBtn.style.left = yesRect.left + "px";
+        noBtn.style.top = yesRect.top + "px";
+    }
+    else if (noAttempts === 4) {
+        noBtn.style.position = "absolute";
+        noBtn.style.left = Math.random() * window.innerWidth + "px";
+        noBtn.style.top = Math.random() * window.innerHeight + "px";
+    }
+    else if (noAttempts === 5) {
+        noBtn.style.fontSize = "10px";
+        noBtn.addEventListener("mouseover", () => {
+            noBtn.style.left = Math.random() * window.innerWidth + "px";
+            noBtn.style.top = Math.random() * window.innerHeight + "px";
+        });
+    }
+    else {
+        message.style.display = "block";
+        message.innerText = "Nice try. This website is bug-free. 😌";
+        noBtn.remove();
+    }
+});
+
+yesBtn.addEventListener("click", () => {
+    message.style.display = "block";
+    message.innerHTML = "I knew it. 💖<br>You’re stuck with me now.<br>Best decision ever.";
+    launchConfetti();
+});
+
+function launchConfetti() {
+    for (let i = 0; i < 80; i++) {
+        let confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.background = ["#ff8fab","#ffc2d1","#ff4d6d","#ff99c8"][Math.floor(Math.random()*4)];
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}
+</script>
+
+</body>
+</html>
